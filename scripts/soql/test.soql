@@ -1,0 +1,13 @@
+// Vlož do něj dotaz, označ ten text myší, zmáčkni Ctrl + Shift + P a zavolej
+// SFDX: Execute SOQL Query with Currently Selected Text
+
+SELECT Id, Name, Status__c,
+    Contact__r.FirstName,
+    Contact__r.LastName,
+    Contact__r.Email
+FROM Bike__c
+
+SELECT Id, FirstName, LastName,
+    (SELECT Id, Name, Status__c FROM Bikes__r)    
+FROM Contact
+WHERE Id IN (SELECT Contact__c from Bike__c)
