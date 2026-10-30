@@ -84,4 +84,10 @@ public with sharing class BikeService {
             System.enqueueJob(new BikeRegistryQueueable(newBikes));
         }
     }
+
+    public static void checkBikeBeforeService(Bike__c b) {
+        if (b.Status__c == 'New') {
+            throw new BikeException('Nové kolo ještě nepotřebuje servis. Nedělejte zbytečnou práci!');
+        }
+    }
 }
