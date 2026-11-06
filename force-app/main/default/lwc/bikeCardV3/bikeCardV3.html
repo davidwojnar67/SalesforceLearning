@@ -1,0 +1,22 @@
+<template>
+    <lightning-card title="Servisní Panel V3 (JS LDS)" icon-name="custom:custom31">
+
+        <div class="slds-m-around_medium">
+            <template lwc:if={bikeName}>
+                <div class="slds-box slds-m-top_medium">
+                    <p>Název kola: <strong>{bikeName}</strong></p>
+                    <p>Aktuální stav: <strong>{bikeServiceStatus}</strong></p>
+
+                    <lightning-button
+                        label="Nastavit jako Fixed (přes JS LDS)"
+                        variant="success"
+                        icon-name="utility:check"
+                        class="slds-m-top_small slds-show"
+                        onclick={handleStatusChange}>
+                    </lightning-button>
+                </div>
+            </template>
+        </div>
+
+    </lightning-card>
+</template>

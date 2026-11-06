@@ -1,0 +1,52 @@
+<template>
+    <lightning-card title="Servisní Panel V2 (Čisté LDS)" icon-name="custom:custom31">
+
+        <div class="slds-m-around_medium">
+            <!-- Tohle je mozek celé operace. Předali jsme mu record-id a název tabulky (Bike__c). 
+             Formulář si na pozadí sám zavolá Salesforce API, načte metadata tabulky
+             a obalí všechno uvnitř sebe takzvaným Record Contextem. -->
+            <lightning-record-edit-form
+                record-id={recordId}
+                object-api-name="Bike__c"
+                onsuccess={handleSuccess}>
+
+                <!-- Kontejner na chyby. Kdyby například tohle Kolo nemohlo být upraveno kvůli nějakému Apex Triggeru
+                 (třeba "Kolo už je prodané, nelze měnit stav"), ty bys v JS nemusel psát žádný try-catch. 
+                 Tato komponenta tu chybu ze serveru sama zachytí a vykreslí nad formulářem krásný červený chybový banner. -->
+                <lightning-messages></lightning-messages>
+
+                <!-- slds-grid: Ekvivalent k Bootstrapovému <div class="row">. Zapne Flexbox kontejner a seřadí prvky vedle sebe. -->
+                <!-- slds-gutters: Přidá mezery (okraje) mezi sloupce, aby texty nebyly nalepené na sobě. -->
+                <div class="slds-grid slds-gutters">
+                    <!-- slds-col: Ekvivalent k Bootstrapovému <div class="col">. Říká, že tento <div> je sloupec uvnitř gridu. -->
+                    <!-- slds-size_1-of-2: Ekvivalent k col-6 z Bootstrapu. 
+                     Říká: "Tento sloupec zabere 1/2 (50 %) dostupné šířky." Kdybys chtěl tři sloupce, dáš tam slds-size_1-of-3. -->
+                    <div class="slds-col slds-size_1-of-2">
+                        <!-- Tohle je ta nejchytřejší komponenta. Neříkáš jí, jak má vypadat, 
+                         říkáš jí jen jaké pole z databáze má reprezentovat. -->
+                        <!-- Komponenta si sáhne do definice databáze: "Aha, Name je Text, vykreslím textový <input>.
+                         Service_Status__c je Picklist, stáhnu si všechny jeho dostupné hodnoty a vykreslím <select>." -->
+                        <!-- Security bonus: Pokud by uživatel, který se na stránku dívá, měl na poli Name v právech nastaveno Read-Only,
+                         komponenta by se sama vykreslila jako obyčejný statický text, ne jako vstupní pole. Tohle bys v čistém JS programoval dny. -->
+                        <lightning-input-field field-name="Name"></lightning-input-field>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2">
+                        <lightning-input-field field-name="Service_Status__c"></lightning-input-field>
+                    </div>
+                </div>
+
+                <!-- Tím, že má atribut type="submit" a leží uvnitř lightning-record-edit-form, nepotřebuje žádný onclick={...} v JavaScriptu.
+                 Kliknutí na něj automaticky posbírá všechny změněné hodnoty z inputů a odpálí je do databáze.
+                 A pokud to projde, spustí se ten náš JS event onsuccess={handleSuccess} s Toast hláškou. -->
+                <lightning-button
+                    class="slds-m-top_small"
+                    variant="brand"
+                    type="submit"
+                    label="Uložit změny LDS">
+                </lightning-button>
+
+            </lightning-record-edit-form>
+        </div>
+
+    </lightning-card>
+</template>

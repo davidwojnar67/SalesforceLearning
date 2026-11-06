@@ -1,0 +1,40 @@
+<template>
+    <lightning-card title="Rychlý Servisní Panel" icon-name="custom:custom31">
+
+        <div class="slds-m-around_medium">
+            <p>Aktuální kontext (VERZE 3) - ID tohoto Kola je:</p>
+            <p><strong>{recordId}</strong></p>
+        
+            <template lwc:if={bikeName}>
+                <div class="slds-box slds-m-top_medium">
+                    <p>Název kola: <strong>{bikeName}</strong></p>
+                    <p>Aktuální stav: <strong>{bikeServiceStatus}</strong></p>
+                    
+                    <lightning-button 
+                            label="Rychle označit jako Opraveno" 
+                            variant="success" 
+                            icon-name="utility:check"
+                            class="slds-m-top_small slds-show"
+                            onclick={handleServiceStatusChange}>
+                    </lightning-button>
+                </div>
+            </template>
+
+            <template lwc:elseif={errorMessage}>
+                <p class="slds-text-color_error">{errorMessage}</p>
+            </template>
+
+            <div class="slds-m-top_medium">
+                <p><strong>Poslední servisní úkony:</strong></p>
+                <ul class="slds-list_dotted slds-m-top_x-small">
+                    <!-- Smyčka for:each -->
+                    <!-- V LWC MUSÍ mít každý prvek v cyklu unikátní atribut 'key' -->
+                    <template for:each={bikePartsList} for:item="partName">
+                        <li key={partName}>{partName}</li>
+                    </template>
+                </ul>
+            </div>
+        </div>
+
+    </lightning-card>
+</template>
