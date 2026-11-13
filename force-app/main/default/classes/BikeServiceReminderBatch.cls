@@ -26,6 +26,11 @@ public class BikeServiceReminderBatch implements Database.Batchable<sObject> {
 
         // Uložíme celou dávku naráz (DML operace se počítá jen jednou na dávku)
         update scope;
+
+        // Pozor na update scope; vs Database.update(scope, false);:
+        // V téhle dávce děláš klasické update scope;. Pokud by z 200 kol v jedné dávce mělo 199 kol data v pořádku,
+        // ale u 1 kola by selhal nějaký validační rule nebo trigger (např. nevalidní stav),
+        // update scope; hodí DmlException a zhodí celou dávku 200 záznamů (rollback).
     }
 
     // 3. FINISH: Spustí se jen jednou na úplný závěr, když jsou všechny dávky hotové.

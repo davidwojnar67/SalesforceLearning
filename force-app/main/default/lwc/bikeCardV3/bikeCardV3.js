@@ -1,16 +1,23 @@
 import { LightningElement, api, wire } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
-
-// 1. Magický import standardních LDS operací (žádný Apex!)
+// A1. Magický import standardních LDS operací (žádný Apex!)
 import { getRecord, updateRecord } from 'lightning/uiRecordApi';
 
-// 2. Definice polí, která chceme stáhnout z databáze
+// B1. LMS IMPORTY: Funkce publish, kontext a náš vlastní kanál (všimni si přípony __c)
+import { publish, MessageContext } from 'lightning/messageService';
+import BIKE_UPDATED_CHANNEL from '@salesforce/messageChannel/BikeUpdated__c';
+
+// A2. Definice polí, která chceme stáhnout z databáze
 const FIELDS = ['Bike__c.Name', 'Bike__c.Service_Status__c']
 
 export default class BikeCardV3 extends LightningElement {
     @api recordId;
     bikeName;
     bikeServiceStatus;
+
+    // B2. Získání kontextu sběrnice přes @wire
+    @wire(MessageContext)
+    messageContext;
 
     // ČTENÍ DAT: Použijeme @wire, ale předáme mu standardní LDS metodu getRecord
     @wire(getRecord, { recordId: '$recordId', fields: FIELDS })
@@ -42,7 +49,14 @@ export default class BikeCardV3 extends LightningElement {
                         message: 'Status byl bleskově změněn čistě přes JS LDS!',
                         variant: 'success'
                     })
-                )
+                );
+
+                // B3. VYSÍLÁNÍ DO SBĚRNICE: Sestavíme payload (DTO) a pošleme ho do éteru
+                const payload = {
+                    recordId: this.recordId,
+                    sourceComponent: 'BikeCardV3 (JS LDS)'              
+                };
+                publish(this.messageContext, BIKE_UPDATED_CHANNEL, payload);
             })
             .catch(error => {
                 this.dispatchEvent(

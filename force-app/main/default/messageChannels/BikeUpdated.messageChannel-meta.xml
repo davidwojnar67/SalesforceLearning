@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningMessageChannel xmlns="http://soap.sforce.com/2006/04/metadata">
+    <masterLabel>BikeUpdated</masterLabel>
+    <isExposed>true</isExposed>
+    <description>Sběrnice pro notifikaci o změně záznamu Kola mezi izolovanými komponentami.</description>
+    <lightningMessageFields>
+        <fieldName>recordId</fieldName>
+        <description>ID kola, které bylo právě upraveno</description>
+    </lightningMessageFields>
+    <lightningMessageFields>
+        <fieldName>sourceComponent</fieldName>
+        <description>Která komponenta změnu vyvolala (pro diagnostiku)</description>
+    </lightningMessageFields>
+</LightningMessageChannel>

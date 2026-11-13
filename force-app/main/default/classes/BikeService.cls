@@ -1,4 +1,4 @@
-public with sharing class BikeService {
+public inherited sharing class BikeService {
     public BikeService() {
 
     }

@@ -6,8 +6,13 @@ import getBikeParts from '@salesforce/apex/BikeController.getBikeParts';
 
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { notifyRecordUpdateAvailable } from 'lightning/uiRecordApi';
-
 import { refreshApex } from '@salesforce/apex';
+
+// 1. LMS IMPORTY PRO PŘIJÍMAČ
+import { subscribe, unsubscribe, MessageContext } from 'lightning/messageService';
+import BIKE_UPDATED_CHANNEL from '@salesforce/messageChannel/BikeUpdated__c';
+
+import verifyBikeInRegistry from '@salesforce/apex/BikeController.verifyBikeInRegistry';
 
 export default class BikeCard extends LightningElement {
 
@@ -22,8 +27,43 @@ export default class BikeCard extends LightningElement {
     bikeName;
     bikeServiceStatus;
     errorMessage;
-
     bikePartsList = [];
+
+    // Držák na referenci @wire pro refreshApex
+    wiredBikeResult;
+
+    // Držák na aktivní odběr (abychom ho mohli v Dispose odpojit)
+    subscription = null;
+
+    // 2. Získání kontextu sběrnice
+    @wire(MessageContext)
+    messageContext;
+
+    // 3. ŽIVOTNÍ CYKLUS: Zapnutí odposlechu při vykreslení komponenty do DOMu
+    connectedCallback() {
+        if(!this.subscription) {
+            this.subscription = subscribe(
+                this.messageContext,
+                BIKE_UPDATED_CHANNEL,
+                (message) => this.handleIncomingMessage(message)
+            );
+        }
+    }
+
+    // 4. ŽIVOTNÍ CYKLUS: Úklid (IDisposable pattern) při opuštění stránky
+    disconnectedCallback() {
+        unsubscribe(this.subscription);
+        this.subscription = null;
+    }
+
+    // 5. ZPRACOVÁNÍ ZPRÁVY ZE SBĚRNICE
+    handleIncomingMessage(message) {
+        // Ověříme, že se zpráva týká našeho Kola (ochrana při otevření více tabů v konzoli)
+        if (message.recordId === this.recordId) {
+            console.log(`V1 zachytila LMS zprávu z: ${message.sourceComponent}. Spouštím refreshApex...`);
+            refreshApex(this.wiredBikeResult);
+        }
+    }
 
     // V klasickém JavaScriptu (nebo tvém TypeScriptu v Angularu) bys pravděpodobně volal nějaké HTTP API,
     // čekal na Promise (.then()) a pak ručně ukládal výsledek do proměnné.
@@ -92,6 +132,63 @@ export default class BikeCard extends LightningElement {
                         variant: 'error'
                     })
                 );
+            });
+    }
+
+    // Zachycení CustomEventu z podřízené komponenty
+    handlePartSelected(event) {
+        // Payload z dítěte leží vždy v event.detail
+        const { partName, checked } = event.detail;
+
+        this.dispatchEvent(
+            new ShowToastEvent({
+                title: checked ? 'Úkon odškrtnut' : 'Úkon vrácen',
+                message: `Položka: ${partName}`,
+                variant: 'info'
+            })
+        );
+    }
+
+    // Ukázka volání @api metody z rodiče na všechny děti v DOMu
+    handleResetAllParts() {
+        const childItems = this.template.querySelectorAll('c-bike-part-item');
+        childItems.forEach(item => {
+            item.resetCheck();
+        });
+    }
+
+
+    isCheckingRegistry = false;
+
+    handleRegistryCheck() {
+        this.isCheckingRegistry = true;
+
+        verifyBikeInRegistry({ bikeId: this.recordId })
+            .then(result => {
+                this.dispatchEvent(
+                    new ShowToastEvent({
+                        title: 'Registr ověřen',
+                        message: result.registryMessage,
+                        variant: 'success'
+                    })
+                );
+
+                // 1. Překreslí V1 (invaliduje Apex Cache)
+                refreshApex(this.wiredBikeResult);
+                // 2. Překreslí V2 i V3 (invaliduje sdílenou LDS Cache)
+                notifyRecordUpdateAvailable([{ recordId: this.recordId }]);
+            })
+            .catch(error => {
+                this.dispatchEvent(
+                    new ShowToastEvent({
+                        title: 'Chyba integrace',
+                        message: error.body ? error.body.message : error.message,
+                        variant: 'error'
+                    })
+                );
+            })
+            .finally(() => {
+                this.isCheckingRegistry = false;
             });
     }
 }

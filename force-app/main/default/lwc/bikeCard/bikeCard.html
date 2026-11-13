@@ -10,13 +10,26 @@
                     <p>Název kola: <strong>{bikeName}</strong></p>
                     <p>Aktuální stav: <strong>{bikeServiceStatus}</strong></p>
                     
-                    <lightning-button 
-                            label="Rychle označit jako Opraveno" 
-                            variant="success" 
-                            icon-name="utility:check"
-                            class="slds-m-top_small slds-show"
-                            onclick={handleServiceStatusChange}>
-                    </lightning-button>
+                    <div class="slds-grid slds-grid_vertical slds-m-top_medium">
+                        <div>
+                            <lightning-button 
+                                label="Rychle označit jako Opraveno" 
+                                variant="success" 
+                                icon-name="utility:check"
+                                onclick={handleServiceStatusChange}>
+                            </lightning-button>
+                        </div>
+
+                        <div class="slds-m-top_x-small">
+                            <lightning-button
+                                label="Ověřit v registru API" 
+                                variant="brand-outline" 
+                                icon-name="utility:connected_apps"
+                                disabled={isCheckingRegistry}
+                                onclick={handleRegistryCheck}>
+                            </lightning-button>
+                        </div>
+                    </div>
                 </div>
             </template>
 
@@ -25,14 +38,22 @@
             </template>
 
             <div class="slds-m-top_medium">
-                <p><strong>Poslední servisní úkony:</strong></p>
-                <ul class="slds-list_dotted slds-m-top_x-small">
-                    <!-- Smyčka for:each -->
-                    <!-- V LWC MUSÍ mít každý prvek v cyklu unikátní atribut 'key' -->
-                    <template for:each={bikePartsList} for:item="partName">
-                        <li key={partName}>{partName}</li>
-                    </template>
-                </ul>
+                <p class="slds-m-bottom_x-small"><strong>Poslední servisní úkony:</strong></p>
+
+                <template for:each={bikePartsList} for:item="part">
+                    <c-bike-part-item
+                        key={part}
+                        part-name={part}
+                        onpartselected={handlePartSelected}>
+                    </c-bike-part-item>
+                </template>
+
+                <lightning-button
+                    label="Resetovat kontrolu dílů"
+                    variant="base"
+                    class="slds-m-top_x-small"
+                    onclick={handleResetAllParts}>
+                </lightning-button>
             </div>
         </div>
 
