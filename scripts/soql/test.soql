@@ -11,3 +11,11 @@ SELECT Id, FirstName, LastName,
     (SELECT Id, Name, Status__c FROM Bikes__r)    
 FROM Contact
 WHERE Id IN (SELECT Contact__c from Bike__c)
+
+SELECT ParentId, Parent.Name, Field, OldValue, NewValue, CreatedDate, CreatedById, CreatedBy.Name
+FROM Bike__History
+ORDER BY CreatedDate DESC
+
+SELECT FIELDS(ALL) FROM Bike__c LIMIT 200
+SELECT FIELDS(CUSTOM) FROM Bike__c LIMIT 200
+SELECT FIELDS(STANDARD) FROM Bike__c
