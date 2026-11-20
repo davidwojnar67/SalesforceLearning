@@ -1,4 +1,4 @@
-@isTest
+@IsTest
 private class BikeServiceReminderBatchTest {
     
     @testSetup
@@ -15,7 +15,7 @@ private class BikeServiceReminderBatchTest {
         insert bikes;
     }
 
-    @isTest
+    @IsTest
     static void testBatchExecutesSuccessfully() {
         Test.startTest();
 

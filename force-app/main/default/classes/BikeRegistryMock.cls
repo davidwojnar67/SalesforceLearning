@@ -1,4 +1,4 @@
-@isTest
+@IsTest
 public class BikeRegistryMock implements HttpCalloutMock {
     public HttpResponse respond(HttpRequest req) {
         // Volitelně můžeme assertnout, jestli Queueable volá správné URL a metodu

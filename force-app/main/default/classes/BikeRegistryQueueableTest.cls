@@ -1,6 +1,6 @@
-@isTest
+@IsTest
 private class BikeRegistryQueueableTest {
-    @isTest
+    @IsTest
     static void testCallout() {
         Contact testContact = new Contact(
             FirstName = 'Karel',

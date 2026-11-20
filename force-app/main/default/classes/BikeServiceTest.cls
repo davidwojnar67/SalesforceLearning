@@ -1,7 +1,7 @@
-@isTest
+@IsTest
 private class BikeServiceTest {
 
-    @isTest
+    @IsTest
     static void testMissingEmailThrowsError() {
         Contact testContact = new Contact(
             FirstName = 'Lojta',
@@ -27,7 +27,7 @@ private class BikeServiceTest {
         System.assertEquals(true, exceptionThrown, 'Trigger měl vyhodit chybu, ale záznam se normálně uložil!');
     }
 
-    @isTest
+    @IsTest
     static void testValidBikeInsertsSuccessfully() {
         Contact testContact = new Contact(
             FirstName = 'Karel',
@@ -49,7 +49,7 @@ private class BikeServiceTest {
         System.assertNotEquals(null, testBike.Id, 'Kolo se mělo úspěšně uložit a získat ID!');
     }
 
-    @isTest
+    @IsTest
     static void testCheckBikesAndConstructor() {
         BikeService serviceInstance = new BikeService();
 
@@ -75,7 +75,7 @@ private class BikeServiceTest {
         System.assertNotEquals(null, testBike.Id);
     }
 
-    @isTest
+    @IsTest
     static void testHandleStatusChange() {
         Contact testContact = new Contact(
             FirstName = 'Honza',

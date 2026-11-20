@@ -1,4 +1,4 @@
-@isTest
+@IsTest
 private class BikeControllerTest {
     @testSetup
     static void setupData() {
@@ -19,7 +19,7 @@ private class BikeControllerTest {
         insert adminBike;
     }
 
-    @isTest
+    @IsTest
     static void testMechanicCannotReadOtherUsersBike() {
         // Najdeme kolo založené Adminem
         Bike__c targetBike = [SELECT Id FROM Bike__c LIMIT 1];

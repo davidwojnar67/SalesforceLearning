@@ -1,4 +1,4 @@
-@isTest
+@IsTest
 private class BikeEnterpriseTest {
     @TestSetup
     static void setupTestData(){
@@ -58,7 +58,7 @@ private class BikeEnterpriseTest {
         insert standardUser;
     }
 
-    @isTest
+    @IsTest
     static void testStandardUserAccess() {
         User banker = [SELECT Id FROM User WHERE Email = 'testuser@example.com' LIMIT 1];
 
@@ -92,7 +92,7 @@ private class BikeEnterpriseTest {
     // Test.stopTest() funguje jako trychtýř. Jakákoliv fronta (Queueable, Future, Batch), 
     // která se zařadí v bloku mezi startTest() a stopTest(), se při zavolání stopTest() okamžitě a synchronně vykoná. 
     // To je ten moment, kdy tvůj kód reálně proběhne a pokryjí se mu řádky.
-    @isTest
+    @IsTest
     static void testQueueableCallout() {
         // Řekneme platformě: "Kdykoliv teď poletí HTTP request, použij náš falešný server"
         Test.setMock(HttpCalloutMock.class, new BikeRegistryMock());

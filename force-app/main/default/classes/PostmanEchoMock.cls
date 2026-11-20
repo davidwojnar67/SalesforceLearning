@@ -1,4 +1,4 @@
-@isTest
+@IsTest
 public class PostmanEchoMock implements HttpCalloutMock {
     public HttpResponse respond(HttpRequest req) {
         HttpResponse res = new HttpResponse();

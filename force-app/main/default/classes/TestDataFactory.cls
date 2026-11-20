@@ -1,4 +1,4 @@
-@isTest
+@IsTest
 public class TestDataFactory {
     public static User createTestUser(String profileName, Boolean doInsert) {
         Profile p = [SELECT Id FROM Profile WHERE Name = :profileName LIMIT 1];

@@ -56,3 +56,7 @@ Transform your ideas into custom Lightning apps that extend CRM workflows direct
 - [Salesforce CLI Plugin Development Guide](https://developer.salesforce.com/docs/platform/salesforce-cli-plugin/guide/conceptual-overview.html)
 - [Salesforce VS Code Extensions Documentation](https://developer.salesforce.com/tools/vscode/)
 
+## VS Code & SFDX Troubleshooting
+
+* `SFDX: Refresh SObject Definitions` (`Ctrl + Shift + P`) – spustit po vytvoření nového objektu, pole nebo Platform Eventu (`__c`, `__e`) v Orgu, aby ho Apex Language Server začal napovídat.
+* `Developer: Reload Window` (`Ctrl + Shift + P`) – restartuje okno a Language Server, když IntelliSense zamrzne i po obnovení SObject definic.
