@@ -149,10 +149,10 @@ export default class BikeCard extends LightningElement {
     // Zachycení CustomEventu z podřízené komponenty
     handlePartSelected(event) {
         // Payload z dítěte leží vždy v event.detail
-        const { partName, checked } = event.detail;
+        const { partName, isChecked } = event.detail;
         showToast(
             this,
-            checked ? 'Úkon odškrtnut' : 'Úkon vrácen',
+            isChecked ? 'Úkon odškrtnut' : 'Úkon vrácen',
             `Položka: ${partName}`,
             'info'
         );

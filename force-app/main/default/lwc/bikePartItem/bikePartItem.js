@@ -20,7 +20,7 @@ export default class BikePartItem extends LightningElement {
         const selectEvent = new CustomEvent('partselected', {
             detail: {
                 partName: this.partName,
-                checked: this.checked
+                isChecked: this.isChecked
             }
         });
 
