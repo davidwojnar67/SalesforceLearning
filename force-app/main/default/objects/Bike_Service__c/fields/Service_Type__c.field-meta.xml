@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Service_Type__c</fullName>
+    <label>Service Type</label>
+    <required>true</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Fork Service</fullName>
+                <default>false</default>
+                <label>Fork Service</label>
+            </value>
+            <value>
+                <fullName>Shock Service</fullName>
+                <default>false</default>
+                <label>Shock Service</label>
+            </value>
+            <value>
+                <fullName>Brake Bleed</fullName>
+                <default>false</default>
+                <label>Brake Bleed</label>
+            </value>
+            <value>
+                <fullName>Drivetrain</fullName>
+                <default>false</default>
+                <label>Drivetrain</label>
+            </value>
+            <value>
+                <fullName>Full Overhaul</fullName>
+                <default>false</default>
+                <label>Full Overhaul</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>
