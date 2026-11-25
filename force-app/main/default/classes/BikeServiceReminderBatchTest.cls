@@ -1,7 +1,7 @@
 @IsTest
 private class BikeServiceReminderBatchTest {
     
-    @testSetup
+    @TestSetup
     static void setupData() {
         Contact rider = new Contact(LastName = 'TestRider', Email = 'test@rider.com');
         insert rider;

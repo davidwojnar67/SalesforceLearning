@@ -56,4 +56,24 @@ public inherited sharing class BikeServiceLogService {
             throw new BikeException('Nepodařilo se dokončit servis: ' + e.getMessage());
         }
     }
+
+    public static void deleteServices(Set<Id> serviceIds) {
+        List<Bike_Service__c> services = new BikeServicesSelector().selectById(serviceIds);
+        if (services.isEmpty()) {
+            throw new BikeException('Servisní záznam nebyl nalezen.');
+        }
+
+        delete as user services;
+    }
+
+    public static void updateServices(List<Bike_Service__c> servicesToUpdate) {
+        if (servicesToUpdate == null || servicesToUpdate.isEmpty()) {
+            return;
+        }
+
+        BikeServices domain = new BikeServices(servicesToUpdate);
+        domain.validateBeforeSave();
+
+        update as user servicesToUpdate;
+    }
 }

@@ -29,4 +29,26 @@ public with sharing class BikeServiceLogController {
             throw new AuraHandledException('Chyba při dokončování servisu: ' + e.getMessage());
         }
     }
+
+    @AuraEnabled
+    public static void deleteServiceLog(Id serviceId) {
+        try {
+            BikeServiceLogService.deleteServices(new Set<Id>{ serviceId });
+        } catch (BikeException e) {
+            throw new AuraHandledException(e.getMessage());
+        } catch (Exception e) {
+            throw new AuraHandledException('Chyba při mazání servisu: ' + e.getMessage());
+        }
+    }
+
+    @AuraEnabled
+    public static void updateServiceLogs(List<Bike_Service__c> services) {
+        try {
+            BikeServiceLogService.updateServices(services);
+        } catch (BikeException e) {
+            throw new AuraHandledException(e.getMessage());
+        } catch (Exception e) {
+            throw new AuraHandledException('Chyba při ukládání změn: ' + e.getMessage());
+        }
+    }
 }

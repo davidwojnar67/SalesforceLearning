@@ -1,0 +1,46 @@
+<template>
+    <lightning-card title="Historie servisních úkonů" icon-name="standard:maintenance_work_rule">
+        <div class="slds-p-around_medium">
+            <!-- Pokus: Řízená překreslovací smyčka -->
+            <!-- <p class="slds-text-body_small slds-m-top_small">Počet překreslení: {renderCount}</p> -->
+            
+            <template lwc:if={hasServices}>
+                <c-custom-datatable
+                    key-field="Id"
+                    data={services}
+                    columns={columns}
+                    draft-values={draftValues}
+                    onsave={handleSave}
+                    onrowaction={handleRowAction}
+                    hide-checkbox-column>
+                </c-custom-datatable>
+            </template>
+
+            <template lwc:else>
+                <p class="slds-text-color_weak">Pro toto kolo zatím neevidujeme žádné servisní úkony.</p>
+            </template>
+        </div>
+    </lightning-card>
+</template>
+
+<!--
+Komponenta lightning-datatable vyžaduje tři základní atributy:
+key-field="Id" – unikátní identifikátor každého řádku (v Salesforce vždy Id).
+data={services} – pole záznamů z Apexu.
+columns={columns} – definice hlaviček a datových typů sloupců z JS.
+-->
+
+<!--
+Inline editace a draftValues v LWC
+
+Jakmile u sloupce přidáš editable: true, lightning-datatable u každé buňky zobrazí 
+ikonku tužky. Když uživatel upraví jednu nebo více buněk:
+
+Změněné řádky se žlutě podbarví a uloží do interního pole draftValues.
+
+Dole pod tabulkou se automaticky objeví lišta s tlačítky Cancel a Save.
+
+Po kliknutí na Save tabulka vyvolá událost onsave, my pole
+event.detail.draftValues pošleme rovnou do updateServiceLogs v Apexu, a po
+úspěšném uložení musíme nastavit this.draftValues = [], aby žluté podbarvení i spodní tlačítka zmizela.
+-->

@@ -1,0 +1,17 @@
+<template>
+    <lightning-combobox
+        name="picklist"
+        label={typeAttributes.label}
+        value={editedValue}
+        placeholder={typeAttributes.placeholder}
+        options={typeAttributes.options}
+        variant="label-hidden"
+        dropdown-alignment="auto"
+        data-inputable="true">
+    </lightning-combobox>
+</template>
+
+<!-- Poznámky k atributům: 
+editedValue dodává samotná LightningDatatable, 
+dropdown-alignment="auto" zajistí, že se rozbalovací seznam neusekne o okraj tabulky, 
+a data-inputable="true" napojí combobox na draftValues -->

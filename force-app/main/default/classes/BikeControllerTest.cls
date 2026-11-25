@@ -1,6 +1,6 @@
 @IsTest
 private class BikeControllerTest {
-    @testSetup
+    @TestSetup
     static void setupData() {
         Contact ownerContact = new Contact(
             FirstName = 'Majitel',
@@ -63,5 +63,5 @@ private class BikeControllerTest {
 
 // Poznámka k User a PermissionSetAssignment: Tyto objekty patří v Salesforce do tzv. Setup Objects.
 // Pokud bys v jednom testu vložil User a hned po něm Bike__c (Non-Setup Object),
-// Salesforce vyhodí MIXED_DML_OPERATION – přesně proto jsme Bike__c založili v @testSetup
+// Salesforce vyhodí MIXED_DML_OPERATION – přesně proto jsme Bike__c založili v @TestSetup
 // nebo zabalili vložení uživatele do samostatného System.runAs(new User(Id = UserInfo.getUserId())).

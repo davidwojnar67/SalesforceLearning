@@ -58,5 +58,8 @@ Transform your ideas into custom Lightning apps that extend CRM workflows direct
 
 ## VS Code & SFDX Troubleshooting
 
-* `SFDX: Refresh SObject Definitions` (`Ctrl + Shift + P`) – spustit po vytvoření nového objektu, pole nebo Platform Eventu (`__c`, `__e`) v Orgu, aby ho Apex Language Server začal napovídat.
-* `Developer: Reload Window` (`Ctrl + Shift + P`) – restartuje okno a Language Server, když IntelliSense zamrzne i po obnovení SObject definic.
+- `SFDX: Refresh SObject Definitions` (`Ctrl + Shift + P`) – spustit po vytvoření nového objektu, pole nebo Platform Eventu (`__c`, `__e`) v Orgu, aby ho Apex Language Server začal napovídat.
+- `Developer: Reload Window` (`Ctrl + Shift + P`) – restartuje okno a Language Server, když IntelliSense zamrzne i po obnovení SObject definic.
+
+- `SFDX: Diff Source Against Org` (pravý klik v editoru) – otevře side-by-side porovnání lokálního souboru proti verzi nasazené v Orgu (užitečné pro ověření, zda jsou všechny změny nasazené).
+- `sf project deploy preview` (terminál) – vypíše přehled všech lokálních souborů, které se liší od Orgu a čekají na deploy.

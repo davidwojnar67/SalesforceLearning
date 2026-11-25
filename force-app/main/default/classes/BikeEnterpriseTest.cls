@@ -10,7 +10,7 @@ private class BikeEnterpriseTest {
     } 
     
     // 1. FÁZE: Příprava dat (Spustí se jen jednou pro celou třídu)
-    // @testSetup
+    // @TestSetup
     static void setupTestData_old(){
         Contact rider = new Contact(FirstName = 'Test', LastName = 'Rider', Email = 'test@rider.com');
         insert rider;
@@ -40,7 +40,7 @@ private class BikeEnterpriseTest {
 
         // Jak se to řeší v enterprise praxi:
         // V bance bychom nikdy neupravovali standardní profil. Vytvořili bychom tzv. Permission Set 
-        // (Sadu oprávnění pro čtení kol), a v tom @testSetup bychom ho našemu testovacímu bankéři 
+        // (Sadu oprávnění pro čtení kol), a v tom @TestSetup bychom ho našemu testovacímu bankéři 
         // programátorsky přiřadili (vložili bychom záznam do systémové tabulky PermissionSetAssignment).
 
         // Jak to opravíme teď hned (abychom viděli to pokrytí):
@@ -75,7 +75,7 @@ private class BikeEnterpriseTest {
 
             // V Salesforce ale tenhle Assert netestuje funkčnost INSERTu. Testuje bezpečnostní model platformy.
 
-            // Kolo totiž v bloku @testSetup vložil administrátor (ty). 
+            // Kolo totiž v bloku @TestSetup vložil administrátor (ty). 
             // Ale samotný testový dotaz [SELECT Id, Name FROM Bike__c] běží uvnitř System.runAs(banker). 
             // Zkouší to přečíst bankéř.
 
@@ -97,7 +97,7 @@ private class BikeEnterpriseTest {
         // Řekneme platformě: "Kdykoliv teď poletí HTTP request, použij náš falešný server"
         Test.setMock(HttpCalloutMock.class, new BikeRegistryMock());
 
-        // Načtení z @testSetup
+        // Načtení z @TestSetup
         List<Bike__c> testBikes = [SELECT Id, Name, Brand__c FROM Bike__c];
 
         Test.startTest();
