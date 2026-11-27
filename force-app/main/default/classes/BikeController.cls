@@ -83,7 +83,7 @@ public with sharing class BikeController {
         ];
 
         HttpRequest req = new HttpRequest();
-        req.setEndpoint('https://postman-echo.com/post');
+        req.setEndpoint('callout:BikeRegistry/post');
         req.setMethod('POST');
         req.setHeader('Content-Type', 'application/json');
         req.setTimeout(10000);

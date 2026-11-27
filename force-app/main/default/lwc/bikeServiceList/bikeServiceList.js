@@ -1,5 +1,6 @@
 import { LightningElement, api, wire } from 'lwc';
 import { refreshApex } from '@salesforce/apex';
+import { registerRefreshHandler, unregisterRefreshHandler } from 'lightning/refresh';
 import { notifyRecordUpdateAvailable } from 'lightning/uiRecordApi';
 import { getObjectInfo, getPicklistValues } from 'lightning/uiObjectInfoApi';
 import BIKE_SERVICE_OBJECT from '@salesforce/schema/Bike_Service__c';
@@ -22,6 +23,7 @@ export default class BikeServiceList extends LightningElement {
     draftValues = [];
     picklistOptions = [];
     wiredServicesResult;
+    refreshHandlerId;
 
     @wire(getObjectInfo, { objectApiName: BIKE_SERVICE_OBJECT })
     objectInfo;
@@ -51,6 +53,14 @@ export default class BikeServiceList extends LightningElement {
             this.services = [];
             showToast(this, 'Chyba při načítání servisů', reduceErrors(result.error), 'error');
         }
+    }
+
+    connectedCallback() {
+        this.refreshHandlerId = registerRefreshHandler(this, this.handleRefresh);
+    }
+
+    disconnectedCallback() {
+        unregisterRefreshHandler(this.refreshHandlerId);
     }
 
     get columns() {
@@ -133,6 +143,16 @@ export default class BikeServiceList extends LightningElement {
                 showToast(this, 'Chyba při mazání', reduceErrors(error), 'error');
             }
         }
+    }
+    
+    handleRefresh() {
+        return new Promise((resolve) => {
+            if (this.wiredServicesResult) {
+                refreshApex(this.wiredServicesResult).finally(() => resolve(true));
+            } else {
+                resolve(true);
+            }
+        });
     }
 
     // // Simulace pádu

@@ -14,6 +14,13 @@ private class BikePipelineTest {
         }
 
         public HttpResponse respond(HttpRequest req) {
+            // Nově přidaná kontrola, že kód skutečně používá Named Credential:
+            Assert.areEqual(
+                'callout:BikeRegistry/post',
+                req.getEndpoint(),
+                'Callout musí směřovat na Named Credential BikeRegistry.'
+            );
+
             HttpResponse res = new HttpResponse();
             res.setHeader('Content-Type', 'application/json');
             res.setStatusCode(this.statusCode);

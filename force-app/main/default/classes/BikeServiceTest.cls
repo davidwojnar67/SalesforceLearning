@@ -51,8 +51,6 @@ private class BikeServiceTest {
 
     @IsTest
     static void testCheckBikesAndConstructor() {
-        BikeService serviceInstance = new BikeService();
-
         Contact testContact = new Contact(
             FirstName = 'Pavel',
             LastName = 'Novák',
@@ -69,7 +67,7 @@ private class BikeServiceTest {
         insert testBike;
 
         Test.startTest();
-        BikeService.checkBikes();
+        BikeManagementService.checkBikes();
         Test.stopTest();
 
         System.assertNotEquals(null, testBike.Id);

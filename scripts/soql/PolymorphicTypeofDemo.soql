@@ -1,0 +1,11 @@
+SELECT Id, Subject,
+    TYPEOF Who
+        WHEN Contact THEN FirstName, LastName, Email
+        WHEN Lead THEN FirstName, LastName, Company
+    END,
+    TYPEOF What
+        WHEN Account THEN Name, Industry
+        WHEN Opportunity THEN Name, StageName
+    END
+FROM Task
+LIMIT 10

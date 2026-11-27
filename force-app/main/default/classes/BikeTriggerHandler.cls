@@ -5,9 +5,9 @@ public with sharing class BikeTriggerHandler {
 
     public static void handleBeforeInsert(List<Bike__c> newBikes) {
         // Insert rekurzi obvykle nedělá, zámek není nutný
-        BikeService.validateBikes(newBikes);
-        BikeService.validateRelatedContacts(newBikes);
-        BikeService.setDefaultStatus(newBikes);
+        Bikes domain = new Bikes(newBikes);
+        domain.validateBeforeSave();
+        domain.setDefaultStatus();
     }
 
     public static void handleBeforeUpdate(List<Bike__c> newBikes, Map<Id,Bike__c> oldBikesMap) {
@@ -15,9 +15,9 @@ public with sharing class BikeTriggerHandler {
         if (!hasRunBeforeUpdate) {
             hasRunBeforeUpdate = true;
 
-            BikeService.validateBikes(newBikes);
-            BikeService.validateRelatedContacts(newBikes);
-            BikeService.handleStatusChange(newBikes, oldBikesMap);
+            Bikes domain = new Bikes(newBikes);
+            domain.validateBeforeSave();
+            domain.handleStatusChange(oldBikesMap);
         }
     }
 
@@ -25,7 +25,7 @@ public with sharing class BikeTriggerHandler {
         if (!hasRunAfterInsert) {
             hasRunAfterInsert = true;
 
-            BikeService.registerNewBikes(newBikes);
+            BikeManagementService.registerNewBikes(newBikes);
         }
     }
 }

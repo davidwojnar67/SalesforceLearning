@@ -1,7 +1,7 @@
 Bike__c noveKolo = new Bike__c(Name = 'Leštěnka', Brand__c = 'Specialized', Status__c = 'New');
 
 try {
-    BikeService.checkBikeBeforeService(noveKolo);
+    BikeManagementService.checkBikeBeforeService(noveKolo);
 
     System.debug('Kolo prošlo kontrolou a může jít do servisu.');
 } catch (BikeException bex) {
